@@ -4,7 +4,10 @@ import EndpointHandler from './EndpointHandler';
 const app = express();
 const port = 3000;
 
-const endpoints = new EndpointHandler();
+const endpoints: EndpointHandler = new EndpointHandler();
+const dirLocation: string = "C:/Projects/chameleon-api-simulator/.testconfigs/"
+
+endpoints.retrieveAPIConfigs(dirLocation);
 
 
 app.get('/', (req, res) => {
