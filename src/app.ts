@@ -1,21 +1,12 @@
-import express from 'express';
-import EndpointHandler from './EndpointHandler';
+import RequestHandler from './RequestHandler';
 
-const app = express();
-const port = 3000;
 
-const endpoints: EndpointHandler = new EndpointHandler();
+const port: number = 3000;
 const dirLocation: string = "C:/Projects/chameleon-api-simulator/.testconfigs/"
-const url: string = "https://api-nba-v1.p.rapidapi.com/seasons?league=standard&season=2023&team=2"
+const baseRoute: string = `/echoAPI/v1/`
+const urlPrefix: string = `https://api-nba-v1.p.rapidapi.com/`
 
-endpoints.retrieveAPIConfigs(dirLocation);
-console.log(endpoints.matchURLParamters(url));
+const test: RequestHandler = new RequestHandler(port, baseRoute, dirLocation, urlPrefix);
 
+test.runRequest();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
-});

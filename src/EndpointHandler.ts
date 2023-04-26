@@ -53,10 +53,10 @@ class EndpointHandler {
 
     private compareParamterValues(searchParameter: Parameter, storedParameter: Parameter): boolean {
         if (searchParameter) {
-            if (storedParameter.required && (storedParameter.value != searchParameter.value)) {
+            if (storedParameter.required && (storedParameter.value != searchParameter.value) && storedParameter.value != '') {
                 return false; // The stored parameter is required and the values dont match
             }
-            else if (!storedParameter.required && (storedParameter.value != searchParameter.value)) {
+            else if (!storedParameter.required && (storedParameter.value != searchParameter.value) && storedParameter.value != '') {
                 return false;
             }
         }
