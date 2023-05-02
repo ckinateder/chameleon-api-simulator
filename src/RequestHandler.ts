@@ -23,25 +23,15 @@ class RequestHandler {
     runRequest() {
         
         app.all("*", ((req, res, next) => {
-            console.log(this)
             const sentBaseUrl: string = req.originalUrl.slice(0,this.baseRoute.length);
             if (sentBaseUrl === this.baseRoute) {
                 const searchUrl = this.searchUrlPrefix + req.originalUrl.slice(this.baseRoute.length);
-                console.log(searchUrl);
-                this.response = this.endpointRetrievals.matchURLParamters(searchUrl).response;
+                this.response = this.endpointRetrievals.matchURLParamters(searchUrl);
                 res.send(this.response)
             }
 
         }).bind(this));
-/*
-        app.get(this.baseRoute , (req, res) => {
-            console.log(req)
-            const UrlSplit: Array<string> = req.originalUrl.split('/');
-            const searchUrl: string = this.searchUrlPrefix + UrlSplit[UrlSplit.length - 1]
-            this.response = this.endpointRetrievals.matchURLParamters(searchUrl).response;
-            res.send(this.response)
-        });
-*/
+
         app.listen(this.apiPort, () => {
             app.emit(`app started`);
             console.log(`Server is listening on port ${this.apiPort}`)

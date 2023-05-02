@@ -53,10 +53,10 @@ class EndpointHandler {
 
     private compareParamterValues(searchParameter: Parameter, storedParameter: Parameter): boolean {
         if (searchParameter) {
-            if (storedParameter.required && (storedParameter.value != searchParameter.value) && storedParameter.value != '') {
+            if ((storedParameter.required && (storedParameter.value != searchParameter.value)) && storedParameter.value != '') {
                 return false; // The stored parameter is required and the values dont match
             }
-            else if (!storedParameter.required && (storedParameter.value != searchParameter.value) && storedParameter.value != '') {
+            else if ((!storedParameter.required && (storedParameter.value != searchParameter.value)) && storedParameter.value != '') {
                 return false;
             }
         }
@@ -96,21 +96,26 @@ class EndpointHandler {
     matchURLParamters(searchParameters: string): APIEndpointValue {
         let matchedConfig: APIEndpointValue;
         const searchParametersSeperated: Array<string> = searchParameters.split(`?`);
-        // Search for right stored APIEndpointValue Object using the search endpoint
+        
+        // Find the endpoint dictionary object using the endpoint passed through the api call
         const matchedStoredEndpoint: Array<APIEndpointValue> = this.endpoints[searchParametersSeperated[0]];
+
+        // Build parameter object from the parameters passed through the api call
+        // This will be used to compare against stored parameters in our endpoint list
         const searchParamters: Array<Parameter> = this.seperateSearchParametersIntoParameterObjects(searchParametersSeperated[1])
         
         if (matchedStoredEndpoint != undefined) {
             for (const storedEnpointValues of matchedStoredEndpoint) {
                 // Compare search parameters to stored endpoint parameters
                 if (this.compareSearchParamtersToStoredParameters(searchParamters, storedEnpointValues.parameters)) {
+                    
                     // If the search parameters match stored parameters, return the stored value
                     return storedEnpointValues;
                 }
             }
             //TODO: If the search parameters dont match any stored parameters, handle it
         }
-        else { console.error("The entered endpoint does not exist.")}
+        else { console.error("The entered endpoint does not exist.") }
         return undefined;
     }
 
