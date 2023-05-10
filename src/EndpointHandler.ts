@@ -6,7 +6,7 @@ class EndpointHandler {
 
     constructor() {
         if(!fs.existsSync(`./.testconfigs`)){
-            fs.mkdirSync(`./.tesconfigs`)
+            fs.mkdirSync(`./.testconfigs`)
         }
     }
 
