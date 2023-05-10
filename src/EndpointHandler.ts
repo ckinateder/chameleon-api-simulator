@@ -4,9 +4,9 @@ class EndpointHandler {
     
     endpoints: {[key:string]: Array<APIEndpointValue>} = {};
 
-    constructor() {
-        if(!fs.existsSync(`./.testconfigs`)){
-            fs.mkdirSync(`./.testconfigs`)
+    constructor(path: string) {
+        if(!fs.existsSync(path)){
+            fs.mkdirSync(path, {recursive: true})
         }
     }
 
@@ -17,7 +17,7 @@ class EndpointHandler {
     private readAPIConfig(dirName: string, fileName: string): void {
         let content: any;
         try {
-            content = JSON.parse(fs.readFileSync(dirName + fileName, `utf-8`))
+            content = JSON.parse(fs.readFileSync(dirName + `\\` + fileName, `utf-8`))
         }
         catch (err) {
             this.onConfigReadError(err);

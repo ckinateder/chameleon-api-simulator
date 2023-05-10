@@ -11,11 +11,11 @@ class RequestHandler {
     private searchUrlPrefix: string;
     private endpointRetrievals: EndpointHandler;
 
-    constructor(port: number, route: string, configDirectory: string, urlPrefix: string) {
+    constructor(port: number, configPath: string, route: string, configDirectory: string, urlPrefix: string) {
         this.apiPort = port;
         this.baseRoute = route;
         this.searchUrlPrefix = urlPrefix
-        this.endpointRetrievals = new EndpointHandler();
+        this.endpointRetrievals = new EndpointHandler(configPath);
         this.response = null;
         this.endpointRetrievals.retrieveAPIConfigs(configDirectory);
     }
