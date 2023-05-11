@@ -1,6 +1,6 @@
 type Parameter = {
     name: string;
     required: boolean;
-    expectedtype: string;
+    expectedtype: string | null;
     value: string;
 }
