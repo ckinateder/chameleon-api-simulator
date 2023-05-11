@@ -37,6 +37,7 @@ class EndpointHandler {
         const parameter: Parameter = {
             name: parameterValues[0],
             required: true,
+            expectedtype: null,
             value: parameterValues[1]
         }
         return parameter;
