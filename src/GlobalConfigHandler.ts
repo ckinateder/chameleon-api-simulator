@@ -17,7 +17,7 @@ class GlobalConfigHandler {
 
         try {
             this.port = parseInt(globalConfig.hostport);
-            this.endpointConfigPath = process.env.USERPROFILE + globalConfig.endpoint.configpath;
+            this.endpointConfigPath = globalConfig.endpoint.configpath;
             this.echoBaseRoute = globalConfig.endpoint.echobaseroute;
             this.apiBaseRoute = globalConfig.endpoint.apiprefix
         }
