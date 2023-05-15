@@ -3,7 +3,7 @@ import fs from 'fs';
 class GlobalConfigHandler {
 
     globalConfigPath: string;
-    port: number;
+    apiPort: number;
     endpointConfigPath: string;
     echoBaseRoute: string;
     apiBaseRoute: string;
@@ -16,8 +16,8 @@ class GlobalConfigHandler {
         const globalConfig = JSON.parse(fs.readFileSync(this.globalConfigPath , `utf-8`));
 
         try {
-            this.port = parseInt(globalConfig.hostport);
-            this.endpointConfigPath = globalConfig.endpoint.configpath;
+            this.apiPort = parseInt(globalConfig.apiport);
+            this.endpointConfigPath = process.env.USERPROFILE + globalConfig.endpoint.configpath;
             this.echoBaseRoute = globalConfig.endpoint.echobaseroute;
             this.apiBaseRoute = globalConfig.endpoint.apiprefix
         }

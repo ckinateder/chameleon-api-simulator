@@ -1,5 +1,5 @@
 {
-    "hostport": 3001,
+    "apiport": 3001,
     "endpoint": {
         "configpath": "EndpointConfigs",
         "echobaseroute": "/echoAPI/v1/",

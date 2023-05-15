@@ -13,7 +13,7 @@ class RequestHandler {
     private endpointRetrievals: EndpointHandler;
 
     constructor(globalConfig: GlobalConfigHandler) {
-        this.apiPort = globalConfig.port;
+        this.apiPort = globalConfig.apiPort;
         this.echoBaseRoute = globalConfig.echoBaseRoute;
         this.searchUrlPrefix = globalConfig.apiBaseRoute
         this.endpointRetrievals = new EndpointHandler(globalConfig.endpointConfigPath);
