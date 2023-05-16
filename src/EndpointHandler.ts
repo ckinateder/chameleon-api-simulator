@@ -28,7 +28,7 @@ class EndpointHandler {
             status: content[endpoint].status,
             parameters: content[endpoint].parameters,
             headers: content[endpoint].headers,
-            response: content[endpoint].response,
+            responses: content[endpoint].responses,
         };
         if (this.endpoints.hasOwnProperty(endpoint)) {
             this.endpoints[endpoint].push(endpointValue);
@@ -42,7 +42,7 @@ class EndpointHandler {
             name: parameterValues[0],
             required: null,
             value: parameterValues[1],
-            type: "any",
+            type: null,
         };
         return parameter;
     }
@@ -90,7 +90,6 @@ class EndpointHandler {
                 return false;
             }
         }
-        console.log("whats up")
         return this.tryParseTheSearchParameter(searchParameter.value, storedParameter.type);
     }
 
@@ -106,6 +105,7 @@ class EndpointHandler {
 
     retrieveAPIConfigs(dirName: string): void {
         let fileNames: Array<string>;
+        console.log(dirName)
         try {
             fileNames = fs.readdirSync(dirName);
         } catch (err) {
@@ -120,7 +120,8 @@ class EndpointHandler {
 
     matchURLParamters(searchParameters: string): APIEndpointValue {
         let matchedConfig: APIEndpointValue;
-        const searchParametersSeperated: Array<string> = searchParameters.split(`?`);
+        const searchParametersSeperated: Array<string> = searchParameters.includes("?") ? searchParameters.split(`?`)
+        : [searchParameters];
 
         // Find the endpoint dictionary object using the endpoint passed through the api call
         const matchedStoredEndpoint: Array<APIEndpointValue> = this.endpoints[searchParametersSeperated[0]];

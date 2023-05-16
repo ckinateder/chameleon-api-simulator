@@ -31,8 +31,8 @@ class RequestHandler {
                 res.send(
                     {
                         status: this.response.status, 
-                        headers: this.response.header,
-                        response: this.response[req.method]
+                        headers: this.response.headers,
+                        response: this.response.responses[req.method]
                     }
                     
                 )

@@ -1,0 +1,115 @@
+{
+    "https://example-api-v1/people": {
+        "status": 200,
+        "parameters": [
+            {
+                "name": "color",
+                "required": true,
+                "value": "red",
+                "type": "string"
+            },
+            {
+                "name": "size",
+                "required": true,
+                "value": 3,
+                "type": "int"
+            }
+        ],
+        "headers": [
+            {
+                "name": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+            },
+            {
+                "name": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "name": "User-Agent",
+                "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+            }
+        ],
+        "responses": {    
+            "GET": {
+                "data": [
+                    {
+                        "id": 1,
+                        "name": "Alice",
+                        "email": "alice@example.com",
+                        "phone": "+1-555-555-5555",
+                        "address": {
+                            "street": "123 Main St",
+                            "city": "Anytown",
+                            "state": "CA",
+                            "zip": "12345"
+                        }
+                    },
+                    {
+                        "id": 2,
+                        "name": "Bob",
+                        "email": "bob@example.com",
+                        "phone": "+1-555-555-5555",
+                        "address": {
+                            "street": "456 Elm St",
+                            "city": "Otherville",
+                            "state": "NY",
+                            "zip": "67890"
+                        }
+                    },
+                    {
+                        "id": 3,
+                        "name": "Charlie",
+                        "email": "charlie@example.com",
+                        "phone": "+1-555-555-5555",
+                        "address": {
+                            "street": "789 Oak St",
+                            "city": "Smallville",
+                            "state": "TX",
+                            "zip": "54321"
+                        }
+                    }
+                ],
+                "POST": {
+                    "data": [
+                        {
+                            "id": 1,
+                            "name": "Eve",
+                            "email": "eve@example.com",
+                            "phone": "+1-555-555-5555",
+                            "address": {
+                                "street": "456 Main St",
+                                "city": "Somewhere",
+                                "state": "FL",
+                                "zip": "13579"
+                            }
+                        },
+                        {
+                            "id": 2,
+                            "name": "Frank",
+                            "email": "frank@example.com",
+                            "phone": "+1-555-555-5555",
+                            "address": {
+                                "street": "246 Park Ave",
+                                "city": "Bigtown",
+                                "state": "IL",
+                                "zip": "97531"
+                            }
+                        },
+                        {
+                            "id": 3,
+                            "name": "Grace",
+                            "email": "grace@example.com",
+                            "phone": "+1-555-555-5555",
+                            "address": {
+                                "street": "789 Oak St",
+                                "city": "Smallville",
+                                "state": "TX",
+                                "zip": "54321"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
