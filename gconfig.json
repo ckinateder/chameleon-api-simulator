@@ -1,0 +1,8 @@
+{
+    "apiport": 3001,
+    "endpoint": {
+        "configpath": "EndpointConfigs",
+        "echobaseroute": "/echoAPI/v1/",
+        "apiprefix": "https://api-nba-v1.p.rapidapi.com/"
+    }
+}

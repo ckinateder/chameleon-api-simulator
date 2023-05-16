@@ -2,6 +2,7 @@ import EndpointHandler from "./EndpointHandler";
 import express from "express";
 import * as path from 'path';
 import * as fs from 'fs';
+import GlobalConfigHandler from "./GlobalConfigHandler";
 
 const app = express();
 
@@ -12,11 +13,11 @@ class InterfaceHandler {
     private searchUrlPrefix: string;
     private configDirectory: string;
 
-    constructor(port: number, route: string, configDirectory: string, urlPrefix: string) {
-        this.apiPort = port;
-        this.baseRoute = route;
-        this.searchUrlPrefix = urlPrefix
-        this.configDirectory = configDirectory;
+    constructor(globalConfig: GlobalConfigHandler) {
+        this.apiPort = globalConfig.interfacePort;
+        this.baseRoute = globalConfig.echoBaseRoute;
+        this.searchUrlPrefix = globalConfig.apiBaseRoute;
+        this.configDirectory = globalConfig.endpointConfigPath;
     }
 
     runRequest() {
