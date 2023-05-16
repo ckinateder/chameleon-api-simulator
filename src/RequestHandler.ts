@@ -28,7 +28,14 @@ class RequestHandler {
             if (sentBaseUrl === this.echoBaseRoute) {
                 const searchUrl = this.searchUrlPrefix + req.originalUrl.slice(this.echoBaseRoute.length);
                 this.response = this.endpointRetrievals.matchURLParamters(searchUrl);
-                res.send(this.response)
+                res.send(
+                    {
+                        status: this.response.status, 
+                        headers: this.response.header,
+                        response: this.response[req.method]
+                    }
+                    
+                )
             }
 
         }).bind(this));
