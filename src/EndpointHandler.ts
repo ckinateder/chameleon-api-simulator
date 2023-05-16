@@ -1,4 +1,5 @@
 import fs from "fs";
+const path = require('path');
 
 class EndpointHandler {
     endpoints: { [key: string]: Array<APIEndpointValue> } = {};
@@ -16,8 +17,9 @@ class EndpointHandler {
     private readAPIConfig(dirName: string, fileName: string): void {
         let content: any;
         try {
-            content = JSON.parse(fs.readFileSync(dirName + `\\` + fileName, `utf-8`));
-        } catch (err) {
+            content = JSON.parse(fs.readFileSync(dirName + path.sep + fileName, `utf-8`))
+        }
+        catch (err) {
             this.onConfigReadError(err);
             return;
         }
