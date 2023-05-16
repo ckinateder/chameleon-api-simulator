@@ -35,7 +35,7 @@ class RequestHandler {
                             requesttype: req.method,
                             status: this.response.status, 
                             headers: this.response.headers,
-                            response: this.response.responses[req.method]
+                            body: this.response.body[req.method]
                         }
                     )    
                 }
