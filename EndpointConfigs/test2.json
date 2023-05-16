@@ -4,9 +4,9 @@
         "parameters": [
             {
                 "name": "hi",
-                "require": true,
-                "value": "hi",
-                "type": "string"
+                "require": false,
+                "value": null,
+                "type": "number"
             }
         ],
         "headers": [

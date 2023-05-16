@@ -2,5 +2,5 @@ type APIEndpointValue = {
     status: number;
     parameters: Parameter[];
     headers: Header[];
-    responses: {[key: string]: string};  
+    body: {[key: string]: string};  
 }

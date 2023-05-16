@@ -15,20 +15,20 @@ class EndpointHandler {
     }
 
     private readAPIConfig(dirName: string, fileName: string): void {
-        let content: any;
+        let fileContent: any;
         try {
-            content = JSON.parse(fs.readFileSync(dirName + path.sep + fileName, `utf-8`))
+            fileContent = JSON.parse(fs.readFileSync(dirName + path.sep + fileName, `utf-8`))
         }
         catch (err) {
             this.onConfigReadError(err);
             return;
         }
-        const endpoint: string = Object.keys(content)[0];
+        const endpoint: string = Object.keys(fileContent)[0];
         const endpointValue: APIEndpointValue = {
-            status: content[endpoint].status,
-            parameters: content[endpoint].parameters,
-            headers: content[endpoint].headers,
-            responses: content[endpoint].responses,
+            status: fileContent[endpoint].status,
+            parameters: fileContent[endpoint].parameters,
+            headers: fileContent[endpoint].headers,
+            body: fileContent[endpoint].body,
         };
         if (this.endpoints.hasOwnProperty(endpoint)) {
             this.endpoints[endpoint].push(endpointValue);
@@ -59,32 +59,26 @@ class EndpointHandler {
 
     private tryParseTheSearchParameter(searchParameterValue: string, storedParamterType: string): boolean {
         switch (storedParamterType) {
-            case "int":
-                try {
+            case "number":
+                if (!Number.isNaN(parseInt(searchParameterValue)))  {
                     parseInt(searchParameterValue);
                     break;
-                } catch (err) {
+                } else {
                     return false;
                 }
-            case "float":
-                try {
-                    parseFloat(searchParameterValue);
-                    break;
-                } catch (err) {
-                    return false;
-                }
-            default:
-                break;
         }
         return true;
     }
 
     private compareParamterValues(searchParameter: Parameter, storedParameter: Parameter): boolean {
         if (searchParameter) {
-            if (storedParameter.required && storedParameter.value != searchParameter.value && storedParameter.value != "") {
-                return false; // The stored parameter is required and the values dont match
-            } else if (!storedParameter.required && storedParameter.value != searchParameter.value && storedParameter.value != "") {
-                return false;
+            if (storedParameter.required && storedParameter.value != null) {
+                if (storedParameter.value != searchParameter.value) {
+                    return false; // The stored parameter is required and the values dont match
+                }
+            } else if (!storedParameter.required && storedParameter.value != null) {
+                if (storedParameter.value != searchParameter.value){ return false }
+                    
             } else {
                 return this.tryParseTheSearchParameter(searchParameter.value, storedParameter.type)
             }
@@ -93,7 +87,7 @@ class EndpointHandler {
                 return false;
             }
         }
-        return true;
+        return true
     }
 
     private compareSearchParamtersToStoredParameters(searchParameters: Array<Parameter>, storedParameters: Array<Parameter>): boolean {
