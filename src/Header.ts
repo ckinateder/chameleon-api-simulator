@@ -1,4 +1,4 @@
 type Header = {
-    key: string;
+    name: string;
     value: string;
 }
