@@ -3,16 +3,10 @@
         "status": 200,
         "parameters": [
             {
-                "name": "color",
-                "required": true,
-                "value": "red",
+                "name": "hi",
+                "require": true,
+                "value": "hi",
                 "type": "string"
-            },
-            {
-                "name": "size",
-                "required": false,
-                "value": 3,
-                "type": "int"
             }
         ],
         "headers": [
@@ -31,46 +25,6 @@
         ],
         "responses": {    
             "GET": {
-                "data": [
-                    {
-                        "id": 1,
-                        "name": "Alice",
-                        "email": "alice@example.com",
-                        "phone": "+1-555-555-5555",
-                        "address": {
-                            "street": "123 Main St",
-                            "city": "Anytown",
-                            "state": "CA",
-                            "zip": "12345"
-                        }
-                    },
-                    {
-                        "id": 2,
-                        "name": "Bob",
-                        "email": "bob@example.com",
-                        "phone": "+1-555-555-5555",
-                        "address": {
-                            "street": "456 Elm St",
-                            "city": "Otherville",
-                            "state": "NY",
-                            "zip": "67890"
-                        }
-                    },
-                    {
-                        "id": 3,
-                        "name": "Charlie",
-                        "email": "charlie@example.com",
-                        "phone": "+1-555-555-5555",
-                        "address": {
-                            "street": "789 Oak St",
-                            "city": "Smallville",
-                            "state": "TX",
-                            "zip": "54321"
-                        }
-                    }
-                ]
-            },
-            "POST": {
                 "data": [
                     {
                         "id": 1,

@@ -29,14 +29,19 @@ class RequestHandler {
                 const searchUrl = "/" + req.originalUrl.slice(this.echoBaseRoute.length);
                 
                 this.response = this.endpointRetrievals.matchURLParamters(searchUrl);
-                res.send(
-                    {
-                        status: this.response.status, 
-                        headers: this.response.headers,
-                        response: this.response.responses[req.method]
-                    }
-                    
-                )
+                if (this.response != undefined){
+                    res.send(
+                        {
+                            requesttype: req.method,
+                            status: this.response.status, 
+                            headers: this.response.headers,
+                            response: this.response.responses[req.method]
+                        }
+                    )    
+                }
+                else {
+                    res.send(`{cannot ${req.method}}`)
+                }
             }
 
         }).bind(this));

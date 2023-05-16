@@ -53,6 +53,7 @@ class EndpointHandler {
         for (const parameter of parametersString.split(`&`)) {
             searchParametersObject.push(this.buildParameterTypeFromSearchParameter(parameter.split(`=`)));
         }
+
         return searchParametersObject;
     }
 
@@ -84,21 +85,28 @@ class EndpointHandler {
                 return false; // The stored parameter is required and the values dont match
             } else if (!storedParameter.required && storedParameter.value != searchParameter.value && storedParameter.value != "") {
                 return false;
+            } else {
+                return this.tryParseTheSearchParameter(searchParameter.value, storedParameter.type)
             }
         } else {
             if (storedParameter.required) {
                 return false;
             }
         }
-        return this.tryParseTheSearchParameter(searchParameter.value, storedParameter.type);
+        return true;
     }
 
     private compareSearchParamtersToStoredParameters(searchParameters: Array<Parameter>, storedParameters: Array<Parameter>): boolean {
-        for (const storedParameter of storedParameters) {
-            const searchParameter: Parameter = searchParameters.find((parameter) => parameter.name === storedParameter.name);
-            if (!this.compareParamterValues(searchParameter, storedParameter)) {
-                return false;
+        if (searchParameters.length > 0) {
+            for (const searchParameter of searchParameters) {
+                const storedParameter: Parameter = storedParameters.find((parameter) => parameter.name === searchParameter.name);
+                if (storedParameter === undefined || (!this.compareParamterValues(searchParameter, storedParameter))) {
+                    return false;
+                }
             }
+        }
+        else if (storedParameters.length != 0){
+            return false
         }
         return true;
     }
@@ -119,16 +127,20 @@ class EndpointHandler {
     }
 
     matchURLParamters(searchParameters: string): APIEndpointValue {
-        let matchedConfig: APIEndpointValue;
-        const searchParametersSeperated: Array<string> = searchParameters.includes("?") ? searchParameters.split(`?`)
-        : [searchParameters];
+        let searchParametersSeperated: Array<string>;
+        let searchParamters: Array<Parameter>;
+        
+        if (searchParameters.includes(`?`)) {
+            searchParametersSeperated = searchParameters.split(`?`);
+            searchParamters = this.seperateSearchParametersIntoParameterObjects(searchParametersSeperated[1]);
+        }
+        else {
+            searchParametersSeperated = [searchParameters];
+            searchParamters = [];
+        }
 
         // Find the endpoint dictionary object using the endpoint passed through the api call
-        const matchedStoredEndpoint: Array<APIEndpointValue> = this.endpoints[searchParametersSeperated[0]];
-
-        // Build parameter object from the parameters passed through the api call
-        // This will be used to compare against stored parameters in our endpoint list
-        const searchParamters: Array<Parameter> = this.seperateSearchParametersIntoParameterObjects(searchParametersSeperated[1]);
+        const matchedStoredEndpoint: Array<APIEndpointValue> = this.endpoints[searchParametersSeperated[0]];        
 
         if (matchedStoredEndpoint != undefined) {
             for (const storedEnpointValues of matchedStoredEndpoint) {
