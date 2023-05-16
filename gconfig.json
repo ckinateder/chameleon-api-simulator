@@ -2,7 +2,6 @@
     "apiport": 3001,
     "endpoint": {
         "configpath": "EndpointConfigs",
-        "echobaseroute": "/echoAPI/v1/",
-        "apiprefix": "https://example-api-v1/"
+        "echobaseroute": "/echoAPI/v1/"
     }
 }
