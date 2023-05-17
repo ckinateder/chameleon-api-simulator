@@ -45,7 +45,7 @@
         "parameters": [
             {
                 "name": "color",
-                "require": true,
+                "required": true,
                 "value": "blue",
                 "type": "string"
             }

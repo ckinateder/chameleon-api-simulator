@@ -4,7 +4,7 @@
         "parameters": [
             {
                 "name": "hi",
-                "require": false,
+                "required": false,
                 "value": null,
                 "type": "number"
             }

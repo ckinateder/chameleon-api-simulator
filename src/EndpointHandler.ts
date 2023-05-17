@@ -99,15 +99,19 @@ class EndpointHandler {
                 }
             }
         }
-        else if (storedParameters.length != 0){
-            return false
+        else {
+            for (const storedParameter of storedParameters) {
+                if (storedParameter.required) { 
+                    return false; 
+                }
+            }
+            return true;        
         }
         return true;
     }
 
     retrieveAPIConfigs(dirName: string): void {
         let fileNames: Array<string>;
-        console.log(dirName)
         try {
             fileNames = fs.readdirSync(dirName);
         } catch (err) {
@@ -120,26 +124,26 @@ class EndpointHandler {
         }
     }
 
-    matchURLParamters(searchParameters: string): APIEndpointValue {
-        let searchParametersSeperated: Array<string>;
-        let searchParamters: Array<Parameter>;
+    matchURLParamters(searchUrlString: string): APIEndpointValue {
+        let searchURLStringSeperated: Array<string>;
+        let searchParameters: Array<Parameter>;
         
-        if (searchParameters.includes(`?`)) {
-            searchParametersSeperated = searchParameters.split(`?`);
-            searchParamters = this.seperateSearchParametersIntoParameterObjects(searchParametersSeperated[1]);
+        if (searchUrlString.includes(`?`)) {
+            searchURLStringSeperated = searchUrlString.split(`?`);
+            searchParameters = this.seperateSearchParametersIntoParameterObjects(searchURLStringSeperated[1]);
         }
         else {
-            searchParametersSeperated = [searchParameters];
-            searchParamters = [];
+            searchURLStringSeperated = [searchUrlString];
+            searchParameters = [];
         }
 
         // Find the endpoint dictionary object using the endpoint passed through the api call
-        const matchedStoredEndpoint: Array<APIEndpointValue> = this.endpoints[searchParametersSeperated[0]];        
+        const matchedStoredEndpoint: Array<APIEndpointValue> = this.endpoints[searchURLStringSeperated[0]];        
 
         if (matchedStoredEndpoint != undefined) {
             for (const storedEnpointValues of matchedStoredEndpoint) {
                 // Compare search parameters to stored endpoint parameters
-                if (this.compareSearchParamtersToStoredParameters(searchParamters, storedEnpointValues.parameters)) {
+                if (this.compareSearchParamtersToStoredParameters(searchParameters, storedEnpointValues.parameters)) {
                     // If the search parameters match stored parameters, return the stored value
                     return storedEnpointValues;
                 }

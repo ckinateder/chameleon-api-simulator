@@ -12,7 +12,7 @@
                 "name": "size",
                 "required": false,
                 "value": 3,
-                "type": "int"
+                "type": "number"
             }
         ],
         "headers": [
