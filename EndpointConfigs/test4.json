@@ -4,9 +4,9 @@
         "parameters": [
             {
                 "name": "hi",
-                "required": false,
+                "required": true,
                 "value": null,
-                "type": "number"
+                "type": "string"
             }
         ],
         "headers": [
@@ -27,15 +27,15 @@
             "GET": {
                 "data": [
                     {
-                        "id": 1,
-                        "name": "Eve",
-                        "email": "eve@example.com",
+                        "id": 3,
+                        "name": "Grace",
+                        "email": "grace@example.com",
                         "phone": "+1-555-555-5555",
                         "address": {
-                            "street": "456 Main St",
-                            "city": "Somewhere",
-                            "state": "FL",
-                            "zip": "13579"
+                            "street": "789 Oak St",
+                            "city": "Smallville",
+                            "state": "TX",
+                            "zip": "54321"
                         }
                     }
                 ]

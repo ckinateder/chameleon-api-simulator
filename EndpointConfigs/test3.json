@@ -3,9 +3,9 @@
         "status": 200,
         "parameters": [
             {
-                "name": "hi",
-                "required": false,
-                "value": null,
+                "name": "gold",
+                "required": true,
+                "value": 7,
                 "type": "number"
             }
         ],
@@ -27,15 +27,15 @@
             "GET": {
                 "data": [
                     {
-                        "id": 1,
-                        "name": "Eve",
-                        "email": "eve@example.com",
+                        "id": 2,
+                        "name": "Frank",
+                        "email": "frank@example.com",
                         "phone": "+1-555-555-5555",
                         "address": {
-                            "street": "456 Main St",
-                            "city": "Somewhere",
-                            "state": "FL",
-                            "zip": "13579"
+                            "street": "246 Park Ave",
+                            "city": "Bigtown",
+                            "state": "IL",
+                            "zip": "97531"
                         }
                     }
                 ]
