@@ -15,20 +15,20 @@ class EndpointHandler {
     }
 
     private readAPIConfig(dirName: string, fileName: string): void {
-        let content: any;
+        let fileContent: any;
         try {
-            content = JSON.parse(fs.readFileSync(dirName + path.sep + fileName, `utf-8`))
+            fileContent = JSON.parse(fs.readFileSync(dirName + path.sep + fileName, `utf-8`))
         }
         catch (err) {
             this.onConfigReadError(err);
             return;
         }
-        const endpoint: string = Object.keys(content)[0];
+        const endpoint: string = Object.keys(fileContent)[0];
         const endpointValue: APIEndpointValue = {
-            status: content[endpoint].status,
-            parameters: content[endpoint].parameters,
-            headers: content[endpoint].headers,
-            responses: content[endpoint].responses,
+            status: fileContent[endpoint].status,
+            parameters: fileContent[endpoint].parameters,
+            headers: fileContent[endpoint].headers,
+            body: fileContent[endpoint].body,
         };
         if (this.endpoints.hasOwnProperty(endpoint)) {
             this.endpoints[endpoint].push(endpointValue);
@@ -53,59 +53,65 @@ class EndpointHandler {
         for (const parameter of parametersString.split(`&`)) {
             searchParametersObject.push(this.buildParameterTypeFromSearchParameter(parameter.split(`=`)));
         }
+
         return searchParametersObject;
     }
 
     private tryParseTheSearchParameter(searchParameterValue: string, storedParamterType: string): boolean {
         switch (storedParamterType) {
-            case "int":
-                try {
+            case "number":
+                if (!Number.isNaN(parseInt(searchParameterValue)))  {
                     parseInt(searchParameterValue);
                     break;
-                } catch (err) {
+                } else {
                     return false;
                 }
-            case "float":
-                try {
-                    parseFloat(searchParameterValue);
-                    break;
-                } catch (err) {
-                    return false;
-                }
-            default:
-                break;
         }
         return true;
     }
 
     private compareParamterValues(searchParameter: Parameter, storedParameter: Parameter): boolean {
         if (searchParameter) {
-            if (storedParameter.required && storedParameter.value != searchParameter.value && storedParameter.value != "") {
-                return false; // The stored parameter is required and the values dont match
-            } else if (!storedParameter.required && storedParameter.value != searchParameter.value && storedParameter.value != "") {
-                return false;
+            if (storedParameter.required && storedParameter.value != null) {
+                if (storedParameter.value != searchParameter.value) {
+                    return false; // The stored parameter is required and the values dont match
+                }
+            } else if (!storedParameter.required && storedParameter.value != null) {
+                if (storedParameter.value != searchParameter.value){ return false }
+                    
+            } else {
+                return this.tryParseTheSearchParameter(searchParameter.value, storedParameter.type)
             }
         } else {
             if (storedParameter.required) {
                 return false;
             }
         }
-        return this.tryParseTheSearchParameter(searchParameter.value, storedParameter.type);
+        return true
     }
 
     private compareSearchParamtersToStoredParameters(searchParameters: Array<Parameter>, storedParameters: Array<Parameter>): boolean {
-        for (const storedParameter of storedParameters) {
-            const searchParameter: Parameter = searchParameters.find((parameter) => parameter.name === storedParameter.name);
-            if (!this.compareParamterValues(searchParameter, storedParameter)) {
-                return false;
+        if (searchParameters.length > 0) {
+            for (const searchParameter of searchParameters) {
+                const storedParameter: Parameter = storedParameters.find((parameter) => parameter.name === searchParameter.name);
+                if (storedParameter === undefined || (!this.compareParamterValues(searchParameter, storedParameter))) {
+                    return false;
+                }
             }
+        }
+        else {
+            for (const storedParameter of storedParameters) {
+                if (storedParameter.required) { 
+                    return false; 
+                }
+            }
+            return true;        
         }
         return true;
     }
 
     retrieveAPIConfigs(dirName: string): void {
         let fileNames: Array<string>;
-        console.log(dirName)
         try {
             fileNames = fs.readdirSync(dirName);
         } catch (err) {
@@ -118,22 +124,26 @@ class EndpointHandler {
         }
     }
 
-    matchURLParamters(searchParameters: string): APIEndpointValue {
-        let matchedConfig: APIEndpointValue;
-        const searchParametersSeperated: Array<string> = searchParameters.includes("?") ? searchParameters.split(`?`)
-        : [searchParameters];
+    matchURLParamters(searchUrlString: string): APIEndpointValue {
+        let searchURLStringSeperated: Array<string>;
+        let searchParameters: Array<Parameter>;
+        
+        if (searchUrlString.includes(`?`)) {
+            searchURLStringSeperated = searchUrlString.split(`?`);
+            searchParameters = this.seperateSearchParametersIntoParameterObjects(searchURLStringSeperated[1]);
+        }
+        else {
+            searchURLStringSeperated = [searchUrlString];
+            searchParameters = [];
+        }
 
         // Find the endpoint dictionary object using the endpoint passed through the api call
-        const matchedStoredEndpoint: Array<APIEndpointValue> = this.endpoints[searchParametersSeperated[0]];
-
-        // Build parameter object from the parameters passed through the api call
-        // This will be used to compare against stored parameters in our endpoint list
-        const searchParamters: Array<Parameter> = this.seperateSearchParametersIntoParameterObjects(searchParametersSeperated[1]);
+        const matchedStoredEndpoint: Array<APIEndpointValue> = this.endpoints[searchURLStringSeperated[0]];        
 
         if (matchedStoredEndpoint != undefined) {
             for (const storedEnpointValues of matchedStoredEndpoint) {
                 // Compare search parameters to stored endpoint parameters
-                if (this.compareSearchParamtersToStoredParameters(searchParamters, storedEnpointValues.parameters)) {
+                if (this.compareSearchParamtersToStoredParameters(searchParameters, storedEnpointValues.parameters)) {
                     // If the search parameters match stored parameters, return the stored value
                     return storedEnpointValues;
                 }

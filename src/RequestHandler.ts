@@ -26,16 +26,22 @@ class RequestHandler {
         app.all("*", ((req, res, next) => {
             const sentBaseUrl: string = req.originalUrl.slice(0,this.echoBaseRoute.length);
             if (sentBaseUrl === this.echoBaseRoute) {
-                const searchUrl = this.searchUrlPrefix + req.originalUrl.slice(this.echoBaseRoute.length);
+                const searchUrl = "/" + req.originalUrl.slice(this.echoBaseRoute.length);
+                
                 this.response = this.endpointRetrievals.matchURLParamters(searchUrl);
-                res.send(
-                    {
-                        status: this.response.status, 
-                        headers: this.response.headers,
-                        response: this.response.responses[req.method]
-                    }
-                    
-                )
+                if (this.response != undefined){
+                    res.send(
+                        {
+                            requesttype: req.method,
+                            status: this.response.status, 
+                            headers: this.response.headers,
+                            body: this.response.body[req.method]
+                        }
+                    )    
+                }
+                else {
+                    res.send(`{cannot ${req.method}}`)
+                }
             }
 
         }).bind(this));
