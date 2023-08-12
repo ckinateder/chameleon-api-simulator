@@ -1,0 +1,9 @@
+{
+    "apiport": 3001,
+    "interfacePort": 3002,
+    "endpointDirectory": "C:\\Projects\\echo-api-frontend\\server\\EndpointConfigs",
+    "endpoint": {
+        "configpath": "EndpointConfigs",
+        "echobaseroute": "/echoAPI/v1/"
+    }
+}
