@@ -31,7 +31,6 @@ class ExistingEndpointsHandler {
                 endpoint: Object.keys(fileContent)[0],
                 parameterNames: this.getParameterValues(fileContent),
             };
-            console.log(simulator);
             simulators.push(simulator);
         }
         return simulators;

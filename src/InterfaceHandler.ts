@@ -43,7 +43,6 @@ class InterfaceHandler {
 
         app.get("/sendupthewholeocean", (req, res) => {
             let existingEndpoints = new ExistingEndpointsHandler(this.endpointDirectory);
-            console.log(this.endpointDirectory);
             res.send(JSON.stringify(existingEndpoints.retrieveListOfEndpointDisplayValues()));
         });
 
