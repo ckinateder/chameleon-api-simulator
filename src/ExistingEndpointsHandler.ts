@@ -3,7 +3,6 @@ const path = require("path");
 
 class ExistingEndpointsHandler {
     simulatorFileNames: string[];
-    simulators: EndpointDisplay[];
     dirname: string;
 
     constructor(path: string) {
@@ -16,7 +15,7 @@ class ExistingEndpointsHandler {
     private getParameterValues(fileContent: any): string[] {
         const parameterNames: string[] = [];
         const endpoint: string = Object.keys(fileContent)[0];
-        const parameters = fileContent[endpoint].pa;
+        const parameters = fileContent[endpoint].parameters;
         for (let i = 0; i < parameters.length; i++) {
             parameterNames.push(parameters[i].name);
         }
@@ -24,22 +23,22 @@ class ExistingEndpointsHandler {
     }
 
     private getContentsOfFiles() {
-        for (const fileName in this.simulatorFileNames) {
-            console.log(fileName);
+        const simulators: EndpointDisplay[] = [];
+        for (const fileName of this.simulatorFileNames) {
             const fileContent: any = JSON.parse(fs.readFileSync(this.dirname + path.sep + fileName, `utf-8`));
             const simulator: EndpointDisplay = {
                 name: fileName,
                 endpoint: Object.keys(fileContent)[0],
                 parameterNames: this.getParameterValues(fileContent),
             };
-            this.simulators.push(simulator);
+            console.log(simulator);
+            simulators.push(simulator);
         }
-        return;
+        return simulators;
     }
 
     retrieveListOfEndpointDisplayValues(): EndpointDisplay[] {
-        this.getContentsOfFiles();
-        return this.simulators;
+        return this.getContentsOfFiles();
     }
 }
 
