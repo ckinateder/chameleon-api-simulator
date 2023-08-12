@@ -1,6 +1,6 @@
 {
     "apiport": 3001,
-    "interfacePort": 3000,
+    "interfacePort": 3002,
     "endpointDirectory": ".\\server\\EndpointConfigs",
     "endpoint": {
         "configpath": "EndpointConfigs",
