@@ -5,6 +5,7 @@ import * as fs from "fs";
 import GlobalConfigHandler from "./GlobalConfigHandler";
 import ExistingEndpointsHandler from "./ExistingEndpointsHandler";
 import NewEndpointsHandler from "./NewEndpointHandler";
+import DeleteEndpointHandler from "./DeleteEndpointHandler";
 
 const app = express();
 
@@ -33,6 +34,12 @@ class InterfaceHandler {
         app.post("/new_endpoint", (req, res) => {
             let newEndpoint: any = new NewEndpointsHandler(this.endpointDirectory, req.body);
             let response: Result = newEndpoint.createNewEndpointFile();
+            res.status(response.code).send(response.message);
+        });
+
+        app.post("/delete_endpoint", (req, res) => {
+            let deleteEndpoint: any = new DeleteEndpointHandler(this.endpointDirectory);
+            let response: Result = deleteEndpoint.deleteFile(req.body.fileName);
             res.status(response.code).send(response.message);
         });
 

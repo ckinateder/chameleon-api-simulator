@@ -14,7 +14,7 @@ class NewEndpointsHandler {
     }
 
     createNewEndpointFile() {
-        const filename: any = `${this.dirname + path.sep + this.newEndpointRecieved.name}.json`;
+        const fileName: any = `${this.dirname + path.sep + this.newEndpointRecieved.name}.json`;
         const endpoint: any = this.newEndpointRecieved.endpoint;
         const status: any = this.newEndpointRecieved.status;
         const parameters: any[] = this.newEndpointRecieved.parameters;
@@ -22,7 +22,7 @@ class NewEndpointsHandler {
         const body: any = this.newEndpointRecieved.body;
         let response: Result;
 
-        if (fs.existsSync(filename)) {
+        if (fs.existsSync(fileName)) {
             response = {
                 result: "error",
                 code: 400,
@@ -36,7 +36,7 @@ class NewEndpointsHandler {
                 headers: headers,
                 body: body,
             };
-            fs.writeFileSync(filename, JSON.stringify(fileContents), `utf-8`);
+            fs.writeFileSync(fileName, JSON.stringify(fileContents), `utf-8`);
 
             response = {
                 result: "success",
