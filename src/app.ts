@@ -1,6 +1,6 @@
-import GlobalConfigHandler from './GlobalConfigHandler';
-import InterfaceHandler from './InterfaceHandler';
-import RequestHandler from './RequestHandler';
+import GlobalConfigHandler from "./GlobalConfigHandler";
+import InterfaceHandler from "./InterfaceHandler";
+import RequestHandler from "./RequestHandler";
 
 const globalConfigPath: string = `././gconfig.json`;
 const globalConfig = new GlobalConfigHandler(globalConfigPath);
@@ -10,4 +10,4 @@ const test: RequestHandler = new RequestHandler(globalConfig);
 const testInterface: InterfaceHandler = new InterfaceHandler(globalConfig);
 
 testInterface.runRequest();
-
+test.runRequest();
