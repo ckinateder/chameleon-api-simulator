@@ -32,8 +32,8 @@ class InterfaceHandler {
         });
 
         app.post("/new_endpoint", (req, res) => {
-            let newEndpoint: any = new NewEndpointsHandler(this.endpointDirectory, req.body);
-            let response: Result = newEndpoint.createNewEndpointFile();
+            let newEndpoint: any = new NewEndpointsHandler(this.endpointDirectory);
+            let response: Result = newEndpoint.createNewEndpointFile(req.body);
             res.status(response.code).send(response.message);
         });
 
