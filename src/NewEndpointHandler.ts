@@ -31,7 +31,7 @@ class NewEndpointsHandler {
         } else {
             const fileContents: any = {};
             fileContents[endpoint] = {
-                satus: status,
+                status: status,
                 parameters: parameters,
                 headers: headers,
                 body: body,
