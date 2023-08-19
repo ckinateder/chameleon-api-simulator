@@ -11,16 +11,8 @@ class EditEndpointsHandler {
         }
     }
 
-    private buildParameters(rawParameters: any[]): Parameter[] {
-        return rawParameters.map((rawParamter) => {
-            name: rawParamter.name,
-            require: rawParamter.required === 'true',
-            value: rawParamter
-        })
-    }
-
     getEndpointData(fileName: string) {
-        const filePath = this.dirname + path.sep + fileName;
+        const filePath = this.dirname + path.sep + fileName + ".json";
         let response: Result;
 
         if (fs.existsSync(filePath)) {
@@ -30,15 +22,27 @@ class EditEndpointsHandler {
                 name: fileName.split(".")[0],
                 endpoint: endpoint,
                 status: fileContent[endpoint].status,
-                parameters: this.buildParameters (fileContent[endpoint].parameters)
-                headers: this.buildHeaders(fileContent[endpoint])
-
+                parameters: fileContent[endpoint].parameters,
+                headers: fileContent[endpoint].headers,
+                body: fileContent[endpoint].body,
+            };
+            response = {
+                result: "success",
+                code: 200,
+                message: JSON.stringify(body),
+            };
+        } else {
+            response = {
+                result: "error",
+                code: 400,
+                message: `Endpoint ${fileName} does not exist`,
             };
         }
+        return response;
     }
 
     editEndpoint(fileName: string, recievedEndpointString: string) {
-        const filePath = this.dirname + path.sep + fileName;
+        const filePath = this.dirname + path.sep + fileName + ".json";
         const newEndpoint = new NewEndpointsHandler(this.dirname);
         let response: Result;
 
@@ -48,7 +52,7 @@ class EditEndpointsHandler {
             response = {
                 result: "success",
                 code: 200,
-                message: `Endpoint ${fileName} created successfully`,
+                message: `Endpoint ${fileName} edited successfully`,
             };
         } else {
             response = {
@@ -57,6 +61,7 @@ class EditEndpointsHandler {
                 message: `Endpoint ${fileName} does not exist`,
             };
         }
+        return response;
     }
 }
 

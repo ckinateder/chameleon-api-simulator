@@ -9,7 +9,7 @@ type UnprocessedEndpointData = {
     name: string;
     endpoint: string;
     status: number;
-    paramters: Parameter[];
-    headers: Header[];
+    parameters: any[];
+    headers: any[];
     body: { [key: string]: string };
 };
