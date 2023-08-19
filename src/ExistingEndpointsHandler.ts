@@ -25,7 +25,8 @@ class ExistingEndpointsHandler {
     private getContentsOfFiles() {
         const simulators: EndpointDisplay[] = [];
         for (const fileName of this.simulatorFileNames) {
-            const fileContent: any = JSON.parse(fs.readFileSync(this.dirname + path.sep + fileName, `utf-8`));
+            const filePath: string = this.dirname + path.sep + fileName;
+            const fileContent: any = JSON.parse(fs.readFileSync(filePath, `utf-8`));
             const simulator: EndpointDisplay = {
                 name: fileName.split(".")[0],
                 endpoint: Object.keys(fileContent)[0],

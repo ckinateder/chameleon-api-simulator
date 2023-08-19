@@ -2,27 +2,27 @@ import fs from "fs";
 const path = require("path");
 
 class NewEndpointsHandler {
-    dirname: string;
-    newEndpointRecieved: any;
+    private dirname: string;
+    private newEndpointRecieved: any;
 
-    constructor(path: string, recievedEndpointString: string) {
-        this.newEndpointRecieved = recievedEndpointString;
+    constructor(path: string) {
         this.dirname = path;
         if (!fs.existsSync(path)) {
             fs.mkdirSync(path, { recursive: true });
         }
     }
 
-    createNewEndpointFile() {
-        const fileName: any = `${this.dirname + path.sep + this.newEndpointRecieved.name}.json`;
-        const endpoint: any = this.newEndpointRecieved.endpoint;
-        const status: any = this.newEndpointRecieved.status;
-        const parameters: any[] = this.newEndpointRecieved.parameters;
-        const headers: any[] = this.newEndpointRecieved.headers;
-        const body: any = this.newEndpointRecieved.body;
+    createNewEndpointFile(recievedEndpointString: any) {
+        const newEndpointRecieved = recievedEndpointString;
+        const filePath: any = `${this.dirname + path.sep + newEndpointRecieved.name}.json`;
+        const endpoint: any = newEndpointRecieved.endpoint;
+        const status: any = newEndpointRecieved.status;
+        const parameters: any[] = newEndpointRecieved.parameters;
+        const headers: any[] = newEndpointRecieved.headers;
+        const body: any = newEndpointRecieved.body;
         let response: Result;
 
-        if (fs.existsSync(fileName)) {
+        if (fs.existsSync(filePath)) {
             response = {
                 result: "error",
                 code: 400,
@@ -36,7 +36,7 @@ class NewEndpointsHandler {
                 headers: headers,
                 body: body,
             };
-            fs.writeFileSync(fileName, JSON.stringify(fileContents), `utf-8`);
+            fs.writeFileSync(filePath, JSON.stringify(fileContents), `utf-8`);
 
             response = {
                 result: "success",

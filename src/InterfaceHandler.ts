@@ -6,6 +6,7 @@ import GlobalConfigHandler from "./GlobalConfigHandler";
 import ExistingEndpointsHandler from "./ExistingEndpointsHandler";
 import NewEndpointsHandler from "./NewEndpointHandler";
 import DeleteEndpointHandler from "./DeleteEndpointHandler";
+import EditEndpointsHandler from "./EditEndpointHandler";
 
 const app = express();
 
@@ -32,14 +33,27 @@ class InterfaceHandler {
         });
 
         app.post("/new_endpoint", (req, res) => {
-            let newEndpoint: any = new NewEndpointsHandler(this.endpointDirectory, req.body);
-            let response: Result = newEndpoint.createNewEndpointFile();
+            let newEndpoint: any = new NewEndpointsHandler(this.endpointDirectory);
+            let response: Result = newEndpoint.createNewEndpointFile(req.body);
             res.status(response.code).send(response.message);
         });
 
         app.post("/delete_endpoint", (req, res) => {
             let deleteEndpoint: any = new DeleteEndpointHandler(this.endpointDirectory);
             let response: Result = deleteEndpoint.deleteFile(req.body.fileName);
+            res.status(response.code).send(response.message);
+        });
+
+        app.post("/get_endpoint", (req, res) => {
+            let editEndpoint: any = new EditEndpointsHandler(this.endpointDirectory);
+            let response: Result = editEndpoint.getEndpointData(req.body.fileName);
+            res.status(response.code).send(response.message);
+        });
+
+        app.post("/edit_endpoint", (req, res) => {
+            console.log("hi");
+            let editEndpoint: any = new EditEndpointsHandler(this.endpointDirectory);
+            let response: Result = editEndpoint.editEndpoint(req.body.oldFileName, req.body.newEndpointData);
             res.status(response.code).send(response.message);
         });
 
